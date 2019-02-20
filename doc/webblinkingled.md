@@ -43,6 +43,6 @@ Apriamo quindi un file di nome `index.js` nella directory del nostro progetto e 
 
 Una volta finito, salviamo ed eseguiamo il codice con il comando `node index.js`. Come si può vedere il codice rimane in esecuzione. Aprire un browser e collegarsi all'URL `http://localhost:1337` e osservare il risultato. Apparirà una pagina bianca con il testo da noi inserito.
 
-Abbiamo realizzato il nostro primo server web con meno di 15 linee di codice! Cliccare Ctrl-C sulla finestra dove si è lanciato il comando `node index.js` per interrompere l'esecuzione
+Abbiamo realizzato il nostro primo server web con meno di 15 linee di codice! Digitare Ctrl-C nella finestra dove si è lanciato il comando `node index.js` per interrompere l'esecuzione.
 
       
