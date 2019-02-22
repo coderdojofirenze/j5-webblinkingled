@@ -28,7 +28,7 @@ function myServer(req, res) {
 }
 
 server.listen(1337, 'localhost', () => {
-    console.log('Server avviato. Collegarsi a http://localhost:1337 per vedere la pagina');
+    console.log('Server avviato.');
 });
 ```
 
@@ -58,7 +58,8 @@ function myServer(req, res) {
       <h1>La mia prima pagina web con NodeJS</h1>
 
       <form name="myForm" action="/" method="post">\
-        <input type="checkbox" name="led1" value="attivo" ${ledAttivo ? 'checked' : ''}> LED attivo<br>
+        <input type="checkbox" name="led1" value="attivo"
+                 ${ledAttivo ? 'checked' : ''}> LED attivo<br>
         <input type="submit" value="Imposta"> \
       </form> \
     `);
@@ -72,6 +73,8 @@ server.listen(1337, 'localhost', () => {
 ```
       
 Adesso abbiamo la possibilità di selezionare o delezionare il *checkbox* "LED Attivo". Come si può vedere però, cliccando sul tasto *Imposta* ancora non succede niente. Per completeare le operazioni dobbiamo gestire lato server l'evento POST che il browser invia al server tutte le volte che si preme il pulsante.
+
+<div class="page"/>
 
 Modifichiamo quindi il file `blink.js` aggiungendo il seguente codice al corpo della funzione `myServer`:
 
@@ -109,7 +112,8 @@ Modifichiamo quindi il file `blink.js` aggiungendo il seguente codice al corpo d
         <h1>La mia prima pagina web con NodeJS</h1>
   
         <form name="myForm" action="/" method="post">\
-          <input type="checkbox" name="led1" value="attivo" ${ledAttivo ? 'checked' : ''}> LED attivo<br>
+          <input type="checkbox" name="led1" value="attivo"
+                     ${ledAttivo ? 'checked' : ''}> LED attivo<br>
           <input type="submit" value="Imposta"> \
         </form> \
       `);
@@ -118,6 +122,8 @@ Modifichiamo quindi il file `blink.js` aggiungendo il seguente codice al corpo d
 ```
 
 Non succede molto, ma la pagina è adesso almeno di nuovo caricata quando premiamo il pulsante *Imposta*. Inoltre, cosa più importante, adesso il nostro server ha a disposizione la variabile `ledAttivo` allineata con lo stato del checkbox presente sulla pagina web.
+
+<div class="page"/>
 
 Quello che ci rimane da fare è quindi utilizzare questa variabile per attivare o disattivare il lampeggiamento del LED sulla scheda Arduino.
 
