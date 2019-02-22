@@ -1,14 +1,9 @@
-// ---- Un semplicissimo server web -----------------------------------------------
 const http = require('http');
-const url = require('url');
-const server = http.createServer(myServer);
 
-var ledAcceso = true;
-var modoLedCheckbox = 'checked';
+const server = http.createServer(myServer);
+var ledAttivo = true;
 
 function myServer(req, res) {
-
-  console.log(`myServer() called --- req.method = ${req.method}`);
 
   if (req.method == "GET") { 
     res.writeHead(200, {'Content-type': 'text/html'});
@@ -16,7 +11,7 @@ function myServer(req, res) {
       <h1>La mia prima pagina web con NodeJS</h1>
 
       <form name="myForm" action="/" method="post">\
-        <input type="checkbox" name="led1" value="acceso" ${modoLedCheckbox}> LED attivo<br>
+        <input type="checkbox" name="led1" value="attivo" ${ledAttivo ? 'checked' : ''}> LED attivo<br>
         <input type="submit" value="Imposta"> \
       </form> \
     `);
@@ -35,15 +30,13 @@ function myServer(req, res) {
 
     }).on('end', function() {
 
-      if (statoLed === 'acceso') {
-        console.log(`Stato LED = acceso`);
-        modoLedCheckbox = 'checked';
-        ledAcceso = true;
+      if (statoLed === 'attivo') {
+        console.log(`Stato LED = attivo`);
+        ledAttivo = true;
       }
       else {
-        console.log(`Stato LED = spento`);
-        modoLedCheckbox = '';
-        ledAcceso = false;
+        console.log(`Stato LED = inattivo`);
+        ledAttivo = false;
       }
   
       res.writeHead(200, {'Content-type': 'text/html'});
@@ -51,21 +44,18 @@ function myServer(req, res) {
         <h1>La mia prima pagina web con NodeJS</h1>
   
         <form name="myForm" action="/" method="post">\
-          <input type="checkbox" name="led1" value="acceso" ${modoLedCheckbox}> LED attivo<br>
+          <input type="checkbox" name="led1" value="attivo" ${ledAttivo ? 'checked' : ''}> LED attivo<br>
           <input type="submit" value="Imposta"> \
         </form> \
       `);
   
     });
-
   }
 }
 
-// utilizziamo una funzionalità avanzata di NodeJS: le arrow function
 server.listen(1337, 'localhost', () => {
-  console.log('Server avviato. Collegarsi a http://localhost:1337 per vedere la pagina');
+    console.log('Server avviato. Collegarsi a http://localhost:1337 per vedere la pagina');
 });
-// --------------------------------------------------------------------------------
 
 // ---- Johnny-Five ---------------------------------------------------------------
 // Carichiamo la libreria 'johnny-five'
@@ -74,13 +64,24 @@ var five = require('johnny-five');
 // Dichiariamo una scheda di tipo Arduino
 var board = new five.Board();
 
-// All'avvio della scheda accendiamo o spengiamo il LED
-// collegato al pin 13 a seconda dello stato
 board.on('ready', function() {
+  // All'avvio della scheda accendiamo o spengiamo il LED
+  // collegato al pin 13 a seconda dello stato
   var led = new five.Led(13);
-  if (ledAcceso)
-    led.on();
+  if (ledAttivo)
+    led.blink(500);
   else
     led.off();
+
+  // Successivamente controlliamo ogni 500 ms se il led
+  // è cambiato di stato
+  this.loop(500, () => {
+    // aggiorna lo stato del led
+    if (ledAttivo)
+      led.blink(500);
+    else
+      led.off();
+  });
+  
 });
-// --------------------------------------------------------------------------------
+
